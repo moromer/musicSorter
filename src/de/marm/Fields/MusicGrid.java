@@ -32,7 +32,6 @@ public class MusicGrid {
 	private void createMusicGrid(Composite parent, String description, Color bg, GridData grid) {
 		table = new Table(parent, SWT.BORDER);
 		table.setLayoutData(grid);
-		System.out.println(parent.getLayout().toString());
 		
 		TableColumn cInterpret = new TableColumn(table, SWT.CENTER);
 		cInterpret.setText("Interpret");
@@ -51,7 +50,7 @@ public class MusicGrid {
 		items = new ArrayList<TableItem>();
 		
 		//Dummy Data
-		Music m1 = new Music("Linken Park", "Livint Things", "Burn it Down");
+		Music m1 = new Music("Linken Park", "Living Things", "Burn it Down");
 		this.addData(m1);
 		this.addData(m1);
 		this.addData(m1);
