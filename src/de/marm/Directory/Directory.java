@@ -28,6 +28,7 @@ public class Directory {
 	}
 
 	public void readFolder() {
+		//find a solution to add this seleciton in foreground		
 		int returnVal = chooser.showDialog(null, "select folder");
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
