@@ -1,6 +1,7 @@
 package de.marm.Fields;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -12,10 +13,11 @@ import org.eclipse.swt.widgets.TableItem;
 
 import de.marm.Typ.Music;
 
-public class MusicGrid {
+public class MusicGrid{
 	
 	private Table table;
-	private ArrayList<TableItem> items;
+	private ArrayList<Music> items;
+	private static MusicGrid instance = null;
 
 	@SuppressWarnings("unused")
 	private MusicGrid() {
@@ -26,7 +28,19 @@ public class MusicGrid {
 	public void addData(Music music) {
 		TableItem item = new TableItem(table, SWT.None);
 		item.setText(music.getData());
-		this.items.add(item);
+		this.items.add(music);
+	}
+	
+	
+	public static MusicGrid getInstance() {
+		return instance;
+	}
+	
+	public static MusicGrid getInstance(Composite parent, String description, Color bg) {
+		if(instance == null) {
+			instance = new MusicGrid(parent, description, bg);
+		}
+		return instance;
 	}
 	
 	private void createMusicGrid(Composite parent, String description, Color bg, GridData grid) {
@@ -47,13 +61,16 @@ public class MusicGrid {
 		
 		table.setHeaderVisible(true);
 		
-		items = new ArrayList<TableItem>();
+		items = new ArrayList<Music>();
 		
-		//Dummy Data
+		//Dummy Data should be replaced by data read form srcFolder
 		Music m1 = new Music("Linken Park", "Living Things", "Burn it Down");
 		this.addData(m1);
+		m1 = new Music("Nirvana", "Living Things", "Smells Like Teen Spriit");
 		this.addData(m1);
+		m1 = new Music("Metallica", "S&M", "Nothing else matters");
 		this.addData(m1);
+		m1 = new Music("Parov Stelar", "something", "i dont know");
 		this.addData(m1);
 		this.addData(m1);
 		this.addData(m1);
@@ -73,6 +90,19 @@ public class MusicGrid {
 	
 	public MusicGrid(Composite parent, String description, Color bg, GridData grid) {
 		createMusicGrid(parent, description, bg, grid);
+	}
+	
+	public void filterBy(String filterString) {
+		table.removeAll();
+		Iterator<Music> it = items.iterator();
+		while(it.hasNext()) {
+			Music music = it.next();
+			if(music.toString().matches(".*"+filterString+".*")) {
+				TableItem item = new TableItem(table, SWT.None);
+				item.setText(music.getData());
+			}
+		}
+		table.redraw();
 	}
 
 }

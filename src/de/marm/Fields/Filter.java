@@ -1,6 +1,5 @@
 package de.marm.Fields;
 
-import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -8,7 +7,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
@@ -43,7 +41,15 @@ public class Filter {
 			@Override
 			public void handleEvent(Event event) {
 				System.out.println("new FilterText: "+ filterText.getText());
-				// TODO Auto-generated method stub
+				try {
+					MusicGrid gMusic = MusicGrid.getInstance();
+					if(gMusic == null )
+						throw new Exception("no Grid defined");
+					gMusic.filterBy(filterText.getText());
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
 			}
 		});

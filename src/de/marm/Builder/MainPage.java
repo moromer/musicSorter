@@ -71,7 +71,7 @@ public class MainPage {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents() {
+	protected void createContents(){
 
 		shell = new Shell();
 		final Image image = new Image(shell.getDisplay(), "images/music.png");
@@ -151,20 +151,18 @@ public class MainPage {
 		bSave.setLayoutData(gridData);
 		bSave.setText("Write Changes");
 
-//		Button bPhoto = new Button(shell, SWT.NONE);
-//		bPhoto.setImage(image);
-//		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
-//		bPhoto.setLayoutData(gridData);
-
 		// Warn, Info, Error Message
 		lblmessage = new Label(shell, SWT.WRAP);
 		gridData = new GridData(GridData.BEGINNING, GridData.CENTER, true,
 				false, 3, 1);
 		lblmessage.setLayoutData(gridData);
 		lblmessage.setText("");
-
-		gMusic = new MusicGrid(shell, "Ordered Music", new Color(
+		
+		gMusic = MusicGrid.getInstance(shell, "Ordered Music",  new Color(
 				Display.getCurrent(), 255, 255, 255));
+		
+//		gMusic = new MusicGrid(shell, "Ordered Music", new Color(
+//				Display.getCurrent(), 255, 255, 255));
 
 	}
 }
