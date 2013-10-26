@@ -17,7 +17,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import de.marm.Fields.FileFormatList;
+import de.marm.Fields.Filter;
 import de.marm.Fields.FolderSelection;
 import de.marm.Fields.MusicGrid;
 
@@ -28,7 +28,7 @@ public class MainPage {
 	protected FolderSelection srcSelection;
 	protected FolderSelection dstSelection;
 	
-	protected FileFormatList fileFormatist;         
+	protected Filter fileFormatist;         
 
 	protected MusicGrid gMusic;
 
@@ -98,7 +98,7 @@ public class MainPage {
 		srcSelection = new FolderSelection(folderInfo, "Src. Folder");
 		dstSelection = new FolderSelection(folderInfo, "Dst. Folder");
 		
-		fileFormatist = new FileFormatList(shell, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		fileFormatist = new Filter(shell, SWT.SINGLE | SWT.BORDER);
 
 		// Modify Action Buttons
 		Composite cActions = new Composite(shell, SWT.NONE);
@@ -135,10 +135,8 @@ public class MainPage {
 		bAnalyze.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println(fileFormatist.getSelectedValues());
 				if (srcSelection.isDirectory() && dstSelection.isDirectory()) {
 					lblmessage.setText("");
-					System.out.println(fileFormatist.getSelectedValues().toString());
 				
 				} else {
 					lblmessage
