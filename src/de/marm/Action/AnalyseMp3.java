@@ -62,13 +62,20 @@ public class AnalyseMp3 {
 					return null;
 				}
 				
-				String title, artist, album;
-				artist = a.substring(33, 63).trim();
+				String title, interpret, album;
+				interpret = a.substring(33, 63).trim();
 				album  = a.substring(63, 93).trim();
 				title  =  a.substring(3, 33).trim();
+				
+				if(interpret.equals("")){
+					interpret = Music.DEFAULT_INTERPRET;
+				}
+				if(album.equals("")) {
+					album = Music.DEFAULT_ALBUM;
+				}
 				ranFile.close();
 
-				return new Music(artist, album, title);
+				return new Music(interpret, album, title);
 				
 //				System.out.println("TITEL: " + a.substring(3, 33).trim());
 //				System.out.println("ARTIST: " + a.substring(33, 63).trim());

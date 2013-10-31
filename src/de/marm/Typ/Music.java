@@ -5,6 +5,10 @@ public class Music {
 	private String album;
 	private String title;
 	private String path;
+	
+	public static String DEFAULT_INTERPRET = "UNSORTED";
+	public static String DEFAULT_ALBUM     = "NO_ALBUM_DEFINED";
+	
 
 	public Music(String interpret, String album, String title) {
 		this.interpret = interpret;
