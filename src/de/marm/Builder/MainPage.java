@@ -3,14 +3,10 @@ package de.marm.Builder;
 import org.eclipse.swt.SWT;
 
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.swt.layout.GridLayout;
@@ -20,9 +16,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
 
-import de.marm.Fields.FileFormatList;
+import de.marm.Fields.Filter;
 import de.marm.Fields.FolderSelection;
 import de.marm.Fields.MusicGrid;
 
@@ -33,7 +28,7 @@ public class MainPage {
 	protected FolderSelection srcSelection;
 	protected FolderSelection dstSelection;
 	
-	protected FileFormatList fileFormatist;         
+	protected Filter fileFormatist;         
 
 	protected MusicGrid gMusic;
 
@@ -76,7 +71,7 @@ public class MainPage {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents() {
+	protected void createContents(){
 
 		shell = new Shell();
 		final Image image = new Image(shell.getDisplay(), "images/music.png");
@@ -103,7 +98,7 @@ public class MainPage {
 		srcSelection = new FolderSelection(folderInfo, "Src. Folder");
 		dstSelection = new FolderSelection(folderInfo, "Dst. Folder");
 		
-		fileFormatist = new FileFormatList(shell, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		fileFormatist = new Filter(shell, SWT.SINGLE | SWT.BORDER);
 
 		// Modify Action Buttons
 		Composite cActions = new Composite(shell, SWT.NONE);
@@ -140,10 +135,8 @@ public class MainPage {
 		bAnalyze.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println(fileFormatist.getSelectedValues());
 				if (srcSelection.isDirectory() && dstSelection.isDirectory()) {
 					lblmessage.setText("");
-					System.out.println(fileFormatist.getSelectedValues().toString());
 				
 				} else {
 					lblmessage
@@ -158,20 +151,14 @@ public class MainPage {
 		bSave.setLayoutData(gridData);
 		bSave.setText("Write Changes");
 
-//		Button bPhoto = new Button(shell, SWT.NONE);
-//		bPhoto.setImage(image);
-//		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
-//		bPhoto.setLayoutData(gridData);
-
 		// Warn, Info, Error Message
 		lblmessage = new Label(shell, SWT.WRAP);
 		gridData = new GridData(GridData.BEGINNING, GridData.CENTER, true,
 				false, 3, 1);
 		lblmessage.setLayoutData(gridData);
 		lblmessage.setText("");
-
-		gMusic = new MusicGrid(shell, "Ordered Music", new Color(
-				Display.getCurrent(), 255, 255, 255));
-
+		
+		gMusic = MusicGrid.getInstance(shell, "Ordered Music");
+		
 	}
 }

@@ -91,8 +91,8 @@ public class FolderSelection {
 	}
 
 	// TODO: set TextField Border red
-	private void setRedBorder() {
-
-	}
+//	private void setRedBorder() {
+//
+//	}
 	
 }
