@@ -26,7 +26,7 @@ public class MainPage {
 	protected FolderSelection srcSelection;
 	protected FolderSelection dstSelection;
 	
-	protected Filter fileFormatist;         
+	protected Filter filterText;         
 
 	protected MusicGrid gMusic;
 
@@ -96,7 +96,7 @@ public class MainPage {
 		srcSelection = new FolderSelection(folderInfo, "Src. Folder", FolderSelection.SRC);
 		dstSelection = new FolderSelection(folderInfo, "Dst. Folder", FolderSelection.DST);
 		
-		fileFormatist = new Filter(shell, SWT.SINGLE | SWT.BORDER);
+		filterText = new Filter(shell, SWT.SINGLE | SWT.BORDER);
 
 		// Modify Action Buttons
 		Composite cActions = new Composite(shell, SWT.NONE);
@@ -122,6 +122,7 @@ public class MainPage {
 			public void widgetSelected(SelectionEvent e) {
 				srcSelection.removeText();
 				dstSelection.removeText();
+				filterText.removeText();
 				MusicGrid.getInstance().removeStore();
 				lblmessage.setText("");
 			}

@@ -53,4 +53,8 @@ public class Filter {
 			}
 		});
 	}
+	
+	public void removeText() {
+		filterText.setText("");
+	}
 }
