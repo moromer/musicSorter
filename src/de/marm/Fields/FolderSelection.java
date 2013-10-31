@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 
+import de.marm.Action.AnalyseMp3;
 import de.marm.Directory.Directory;
 
 public class FolderSelection {
@@ -18,12 +19,17 @@ public class FolderSelection {
 	private Button buttonField;
 	private Text textField;
 	private Directory dir;
+	private int type;
+	
+	public static int SRC = 1;
+	public static int DST = 2;
 
 	@SuppressWarnings("unused")
 	private FolderSelection() {
 	}
 
-	public FolderSelection(Composite parent, String description) {
+	public FolderSelection(Composite parent, String description, int type) {
+		this.type = type;
 		dir = new Directory();
 		new Label(parent, SWT.NONE).setText(description);
 
@@ -55,6 +61,7 @@ public class FolderSelection {
 		});
 
 		textField.addFocusListener(new FocusAdapter() {
+
 			@Override
 			public void focusLost(FocusEvent e) {
 
@@ -70,7 +77,7 @@ public class FolderSelection {
 					System.out.println("hightlight text as red");
 
 				}
-				System.out.println("validation finished!");
+				
 
 			}
 		});
@@ -80,13 +87,15 @@ public class FolderSelection {
 		textField.setText("");
 		dir.setAbsolutePath("");
 	}
+	
+	public String getPath() {
+		return textField.getText();
+	}
 
 	public boolean isDirectory() {
 		if (dir != null) {
-			System.out.println("dir exist i will start now the check");
 			return dir.isDirectory();
 		}
-		System.out.println("i will return now false");
 		return false;
 	}
 

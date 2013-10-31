@@ -1,22 +1,20 @@
 package de.marm.Builder;
 
 import org.eclipse.swt.SWT;
-
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
-
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
+import de.marm.Action.AnalyseMp3;
 import de.marm.Fields.Filter;
 import de.marm.Fields.FolderSelection;
 import de.marm.Fields.MusicGrid;
@@ -95,8 +93,8 @@ public class MainPage {
 		gridData.widthHint = 400;
 		folderInfo.setLayoutData(gridData);
 
-		srcSelection = new FolderSelection(folderInfo, "Src. Folder");
-		dstSelection = new FolderSelection(folderInfo, "Dst. Folder");
+		srcSelection = new FolderSelection(folderInfo, "Src. Folder", FolderSelection.SRC);
+		dstSelection = new FolderSelection(folderInfo, "Dst. Folder", FolderSelection.DST);
 		
 		fileFormatist = new Filter(shell, SWT.SINGLE | SWT.BORDER);
 
@@ -124,6 +122,7 @@ public class MainPage {
 			public void widgetSelected(SelectionEvent e) {
 				srcSelection.removeText();
 				dstSelection.removeText();
+				MusicGrid.getInstance().removeStore();
 				lblmessage.setText("");
 			}
 		});
@@ -137,6 +136,9 @@ public class MainPage {
 			public void widgetSelected(SelectionEvent e) {
 				if (srcSelection.isDirectory() && dstSelection.isDirectory()) {
 					lblmessage.setText("");
+					AnalyseMp3 analyse = new AnalyseMp3(srcSelection.getPath());
+					analyse.setSrcFolder(srcSelection.getPath());
+					analyse.startAnalyse();
 				
 				} else {
 					lblmessage

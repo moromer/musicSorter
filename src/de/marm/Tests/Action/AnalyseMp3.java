@@ -6,18 +6,24 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.marm.Fields.MusicGrid;
+import de.marm.Typ.Music;
 
 public class AnalyseMp3 {
 	
 	private de.marm.Action.AnalyseMp3 analyze;
 	private String expectedPath;
+	private MusicGrid grid;
 
 	@Before
 	public void prepare() {
-		expectedPath = "/home/marm/Music/";
+		expectedPath = "/home/marm/git/musicSorter/testData/";
 		analyze = new de.marm.Action.AnalyseMp3(expectedPath);
+		grid = de.marm.Fields.MusicGrid.getInstance(new Shell(), "test");
 	}
 	
 	@Test
@@ -25,7 +31,7 @@ public class AnalyseMp3 {
 		assertEquals("check initialization",de.marm.Action.AnalyseMp3.class, analyze.getClass());
 		assertEquals("check path",expectedPath, analyze.getPath());
 		
-		this.resetAnalyzeObject("/home/marm/Music");
+		this.resetAnalyzeObject("/home/marm/git/musicSorter/testData");
 		
 		assertEquals("check initialization",de.marm.Action.AnalyseMp3.class, analyze.getClass());
 		assertEquals("check path",expectedPath, analyze.getPath());
@@ -65,6 +71,12 @@ public class AnalyseMp3 {
 		rmdir(tmpPath);
 		
 		
+	}
+	
+	@Test
+	public void checkAnalyse() {
+		analyze.startAnalyse();
+		assertEquals("check mp3 tags","Alex Clare|The Lateness of the Hour|Hands Are Clever", grid.getItemList().get(0).toString());
 	}
 	
 	private void createFile(String path, String fileName) throws IOException {

@@ -97,6 +97,11 @@ public class MusicGrid{
 		
 	}
 	
+	public void removeStore() {
+		table.removeAll();
+		items.removeAll(items);
+	}
+	
 	public void filterBy(String filterString) {
 		table.removeAll();
 		Iterator<Music> it = items.iterator();
