@@ -56,7 +56,7 @@ public class Music {
 	}
 	
 	public String toString() {
-		return this.interpret + "|" + this.album + "|" + this.path;
+		return this.interpret + "|" + this.album + "|" + this.title;
 	}
 	
 	

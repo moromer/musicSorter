@@ -25,8 +25,13 @@ public class MusicGrid{
 		
 	}
 	
-	protected void addData(Music music) {
+	public ArrayList<Music> getItemList() {
+		return items;
+	}
+	
+	public void addData(Music music) {
 		TableItem item = new TableItem(table, SWT.None);
+		
 		item.setText(music.getData());
 		this.items.add(music);
 	}
@@ -64,20 +69,20 @@ public class MusicGrid{
 		items = new ArrayList<Music>();
 		
 		//Dummy Data should be replaced by data read form srcFolder
-		Music m1 = new Music("Linken Park", "Living Things", "Burn it Down");
-		this.addData(m1);
-		m1 = new Music("Nirvana", "Living Things", "Smells Like Teen Spriit");
-		this.addData(m1);
-		m1 = new Music("Metallica", "S&M", "Nothing else matters");
-		this.addData(m1);
-		m1 = new Music("Parov Stelar", "something", "i dont know");
-		this.addData(m1);
-		this.addData(m1);
-		this.addData(m1);
-		this.addData(m1);
-		this.addData(m1);
-		this.addData(m1);
-		this.addData(m1);
+//		Music m1 = new Music("Linken Park", "Living Things", "Burn it Down");
+//		this.addData(m1);
+//		m1 = new Music("Nirvana", "Living Things", "Smells Like Teen Spriit");
+//		this.addData(m1);
+//		m1 = new Music("Metallica", "S&M", "Nothing else matters");
+//		this.addData(m1);
+//		m1 = new Music("Parov Stelar", "something", "i dont know");
+//		this.addData(m1);
+//		this.addData(m1);
+//		this.addData(m1);
+//		this.addData(m1);
+//		this.addData(m1);
+//		this.addData(m1);
+//		this.addData(m1);
 		
 	}
 	
