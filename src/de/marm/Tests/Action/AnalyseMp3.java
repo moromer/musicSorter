@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.marm.Fields.MusicGrid;
-import de.marm.Typ.Music;
 
 public class AnalyseMp3 {
 	
@@ -62,7 +61,7 @@ public class AnalyseMp3 {
 		
 		assertEquals("check File is still File1.mp3", "File1.mp3", fileList.get(0).getName());
 		
-		analyze.readInFiles();
+		analyze.reLaunchFiles();
 		
 		assertEquals("check count of files is now 2", 2, fileList.size());
 		assertEquals("check File is still File1.mp3", "File1.mp3", fileList.get(0).getName());

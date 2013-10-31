@@ -30,19 +30,20 @@ public class AnalyseMp3 {
 
 	public void startAnalyse() {
 		MusicGrid grid = MusicGrid.getInstance();
-		System.out.println(grid);
 		
 		if(!this.srcFolder.isEmpty()) {
 			this.readFiles();
+			Iterator<File> it = fileList.iterator();
+			
+			while(it.hasNext()) {
+				File file = it.next();
+				Music mp3 = this.readMp3Tags(file);
+				grid.addData(mp3);
+			}
+		} else {
+			System.out.println("no srcFolder specified -> can not start the Analyse");
 		}
 		
-		Iterator<File> it = fileList.iterator();
-		
-		while(it.hasNext()) {
-			File file = it.next();
-			Music mp3 = this.readMp3Tags(file);
-			grid.addData(mp3);
-		}
  
 	}
 
@@ -57,6 +58,7 @@ public class AnalyseMp3 {
 				
 				if (!a.substring(0, 3).equals("TAG")) {
 					System.out.println("Keine Informationen vorhanden");
+					ranFile.close();
 					return null;
 				}
 				
@@ -64,13 +66,18 @@ public class AnalyseMp3 {
 				artist = a.substring(33, 63).trim();
 				album  = a.substring(63, 93).trim();
 				title  =  a.substring(3, 33).trim();
+				ranFile.close();
+
 				return new Music(artist, album, title);
+				
 //				System.out.println("TITEL: " + a.substring(3, 33).trim());
 //				System.out.println("ARTIST: " + a.substring(33, 63).trim());
 //				System.out.println("ALBUM: " + a.substring(63, 93).trim());
 //				System.out.println("YEAR: " + a.substring(93, 97).trim());
 //				System.out.println("COMMENT: " + a.substring(97, 126).trim());
 //				System.out.println("GENRE: " + bytearr[127]);
+				
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -79,10 +86,6 @@ public class AnalyseMp3 {
 		return null;
 	}
 
-	public File getSrcFolder() {
-		return new File(this.srcFolder);
-	}
-	
 	public void setSrcFolder(String folder) {
 		this.srcFolder = folder;
 	}
@@ -116,7 +119,7 @@ public class AnalyseMp3 {
 		return this.srcFolder;
 	}
 
-	public void readInFiles() {
+	public void reLaunchFiles() {
 		this.fileList.removeAll(fileList);
 		this.readFiles();
 
