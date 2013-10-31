@@ -40,7 +40,6 @@ public class Filter {
 			
 			@Override
 			public void handleEvent(Event event) {
-				System.out.println("new FilterText: "+ filterText.getText());
 				try {
 					MusicGrid gMusic = MusicGrid.getInstance();
 					if(gMusic == null )

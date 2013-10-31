@@ -7,6 +7,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -16,16 +17,15 @@ import de.marm.Typ.Music;
 public class MusicGrid{
 	
 	private Table table;
+//	TODO: this arraylist should be 2 dimensional. So that i can specifiy if item x is visible or not
 	private ArrayList<Music> items;
 	private static MusicGrid instance = null;
 
-	@SuppressWarnings("unused")
 	private MusicGrid() {
 		
 	}
 	
-	
-	public void addData(Music music) {
+	protected void addData(Music music) {
 		TableItem item = new TableItem(table, SWT.None);
 		item.setText(music.getData());
 		this.items.add(music);
@@ -36,9 +36,9 @@ public class MusicGrid{
 		return instance;
 	}
 	
-	public static MusicGrid getInstance(Composite parent, String description, Color bg) {
+	public static MusicGrid getInstance(Composite parent, String description) {
 		if(instance == null) {
-			instance = new MusicGrid(parent, description, bg);
+			instance = new MusicGrid(parent, description);
 		}
 		return instance;
 	}
@@ -81,15 +81,15 @@ public class MusicGrid{
 		
 	}
 	
-	public MusicGrid(Composite parent, String description, Color bg) {
+	private MusicGrid(Composite parent, String description) {
 		GridData gridData = new GridData(GridData.FILL, GridData.FILL, false, true);
 		gridData.horizontalSpan = 3;
 		
+		
+		Color bg = new Color(
+				Display.getCurrent(), 255, 255, 255);
 		createMusicGrid(parent, description, bg, gridData);
-	}
-	
-	public MusicGrid(Composite parent, String description, Color bg, GridData grid) {
-		createMusicGrid(parent, description, bg, grid);
+		
 	}
 	
 	public void filterBy(String filterString) {

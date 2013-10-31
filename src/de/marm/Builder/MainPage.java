@@ -158,11 +158,7 @@ public class MainPage {
 		lblmessage.setLayoutData(gridData);
 		lblmessage.setText("");
 		
-		gMusic = MusicGrid.getInstance(shell, "Ordered Music",  new Color(
-				Display.getCurrent(), 255, 255, 255));
+		gMusic = MusicGrid.getInstance(shell, "Ordered Music");
 		
-//		gMusic = new MusicGrid(shell, "Ordered Music", new Color(
-//				Display.getCurrent(), 255, 255, 255));
-
 	}
 }
