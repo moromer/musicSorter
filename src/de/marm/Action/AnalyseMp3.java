@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.marm.Fields.MusicGrid;
-import de.marm.Typ.Music;
+import de.marm.Typ.MP3;
 
 public class AnalyseMp3 {
 	private String srcFolder;
@@ -36,7 +36,7 @@ public class AnalyseMp3 {
 			Iterator<File> it = fileList.iterator();
 			
 			while(it.hasNext()) {
-				Music music = this.readMp3Tags(it.next());
+				MP3 music = this.readMp3Tags(it.next());
 				if(music != null) {
 					grid.addData(music);
 				}
@@ -48,7 +48,7 @@ public class AnalyseMp3 {
  
 	}
 
-	private Music readMp3Tags(File mp3File) {
+	private MP3 readMp3Tags(File mp3File) {
 		if (mp3File.isFile()) {
 			try {
 				RandomAccessFile ranFile = new RandomAccessFile(mp3File, "r");
@@ -57,10 +57,11 @@ public class AnalyseMp3 {
 					byte[] bytearr = new byte[128];
 					ranFile.seek(ranFile.length() - 128);
 					ranFile.read(bytearr, 0, 128);
-					String a = new String(bytearr, "US-ASCII");
+					String a = new String(bytearr, "UTF-8");
+					System.out.println(a);
 					
 					if (!a.substring(0, 3).equals("TAG")) {
-						System.out.println("Keine Informationen vorhanden");
+						System.out.println("no tag information readable");
 						ranFile.close();
 						return null;
 					}
@@ -71,14 +72,14 @@ public class AnalyseMp3 {
 					title  =  a.substring(3, 33).trim();
 					
 					if(interpret.equals("")){
-						interpret = Music.DEFAULT_INTERPRET;
+						interpret = MP3.DEFAULT_INTERPRET;
 					}
 					if(album.equals("")) {
-						album = Music.DEFAULT_ALBUM;
+						album = MP3.DEFAULT_ALBUM;
 					}
 					ranFile.close();
 					
-					return new Music(interpret, album, title);
+					return new MP3(interpret, album, title);
 					
 	//				System.out.println("TITEL: " + a.substring(3, 33).trim());
 	//				System.out.println("ARTIST: " + a.substring(33, 63).trim());

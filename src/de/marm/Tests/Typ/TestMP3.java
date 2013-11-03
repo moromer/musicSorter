@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Music {
+public class TestMP3 {
 	
-	private de.marm.Typ.Music music;
+	private de.marm.Typ.MP3 music;
 	
 	@Before
 	public void prepare() {
-		music = new de.marm.Typ.Music("Michael Jackson", "Black & White", "Black and White");
+		music = new de.marm.Typ.MP3("Michael Jackson", "Black & White", "Black and White");
 	}
 
 	@Test

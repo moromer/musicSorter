@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.marm.Typ.Music;
+import de.marm.Typ.MP3;
 
 
 public class MusicGrid {
@@ -30,21 +30,21 @@ public class MusicGrid {
 	
 	@Test
 	public void testAdd() {
-		Music music = new Music("Michael Jackson", "Black & White", "Black or White");
+		MP3 music = new MP3("Michael Jackson", "Black & White", "Black or White");
 		System.out.println(musicGrid);
 		musicGrid.addData(music);
 	}
 	
 	@Test 
 	public void checkItemList() {
-		ArrayList<Music> items = musicGrid.getItemList();
+		ArrayList<MP3> items = musicGrid.getItemList();
 		
-		Music music = items.get(0);
+		MP3 music = items.get(0);
 
 		assertEquals("correct correct length", 1, items.size());
 		assertEquals("item is correct","Michael Jackson|Black & White|Black or White", music.toString());
 		
-		Music newMusic = new Music("Parov Stelar", "Art of Sampling", "Matilda");
+		MP3 newMusic = new MP3("Parov Stelar", "Art of Sampling", "Matilda");
 		musicGrid.addData(newMusic);
 		
 		assertEquals("correct correct length", 2, items.size());

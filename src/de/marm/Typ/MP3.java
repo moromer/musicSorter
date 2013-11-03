@@ -1,6 +1,6 @@
 package de.marm.Typ;
 
-public class Music {
+public class MP3 {
 	private String interpret;
 	private String album;
 	private String title;
@@ -10,13 +10,13 @@ public class Music {
 	public static String DEFAULT_ALBUM     = "NO_ALBUM_DEFINED";
 	
 
-	public Music(String interpret, String album, String title) {
+	public MP3(String interpret, String album, String title) {
 		this.interpret = interpret;
 		this.album     = album;
 		this.title     = title;
 	}
 	
-	public Music(String interpret, String album, String title, String path) {
+	public MP3(String interpret, String album, String title, String path) {
 		this.interpret = interpret;
 		this.album     = album;
 		this.title     = title;
@@ -62,8 +62,5 @@ public class Music {
 	public String toString() {
 		return this.interpret + "|" + this.album + "|" + this.title;
 	}
-	
-	
-	
 }
 
