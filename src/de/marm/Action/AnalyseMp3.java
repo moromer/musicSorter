@@ -1,8 +1,6 @@
 package de.marm.Action;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -71,7 +69,7 @@ public class AnalyseMp3 {
 			if (fileEntry.isDirectory()) {
 				this.readFiles(fileEntry.toString());
 			} else {
-				if(fileEntry.toString().matches(".*mp3$")) {
+				if(fileEntry.toString().matches(".*\\.mp3$")) {
 					fileList.add(fileEntry);
 				} else {
 					System.out.println("File ("+fileEntry.toString() + " ) is not a valid type of .mp3");
