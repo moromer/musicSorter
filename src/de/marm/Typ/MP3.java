@@ -1,30 +1,30 @@
 package de.marm.Typ;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
 public class MP3 {
 	private String interpret;
 	private String album;
 	private String title;
-	private String path;
-	
+	private File   mp3File;
+
 	public static String DEFAULT_INTERPRET = "UNSORTED";
-	public static String DEFAULT_ALBUM     = "NO_ALBUM_DEFINED";
-	
+	public static String DEFAULT_ALBUM = "NO_ALBUM_DEFINED";
 
 	public MP3(String interpret, String album, String title) {
 		this.interpret = interpret;
-		this.album     = album;
-		this.title     = title;
+		this.album = album;
+		this.title = title;
 	}
-	
-	public MP3(String interpret, String album, String title, String path) {
-		this.interpret = interpret;
-		this.album     = album;
-		this.title     = title;
-		this.path      = path;
+
+	public MP3(File mp3File) {
+		this.mp3File = mp3File;
 	}
-	
+
 	public String[] getData() {
-		return new String[] {this.interpret, this.album, this.title};
+		return new String[] { this.interpret, this.album, this.title };
 	}
 
 	public String getInterpret() {
@@ -50,17 +50,71 @@ public class MP3 {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
+	
+	//TODO: check performance
+	public void setmp3File(File mp3File) {
+		this.mp3File = mp3File;
 	}
 	
+	public File getmp3File() {
+		return mp3File;
+	}
+	
+	public boolean isValidFile() {
+		return mp3File.getName().matches(".*\\.mp3$");
+	}
+
 	public String toString() {
 		return this.interpret + "|" + this.album + "|" + this.title;
 	}
-}
 
+	public void readValuesFromMp3Tag() {
+		if (mp3File.isFile()) {
+			try {
+				RandomAccessFile ranFile = new RandomAccessFile(mp3File, "r");
+
+				if (ranFile.length() >= 128) {
+					byte[] bytearr = new byte[128];
+					ranFile.seek(ranFile.length() - 128);
+					ranFile.read(bytearr, 0, 128);
+					String a = new String(bytearr, "UTF-8");
+					System.out.println(a);
+
+					if (!a.substring(0, 3).equals("TAG")) {
+						System.out.println("no tag information readable");
+						ranFile.close();
+					}
+
+					interpret = a.substring(33, 63).trim();
+					album = a.substring(63, 93).trim();
+					title = a.substring(3, 33).trim();
+
+					if (interpret.equals("")) {
+						interpret = MP3.DEFAULT_INTERPRET;
+					}
+					if (album.equals("")) {
+						album = MP3.DEFAULT_ALBUM;
+					}
+					ranFile.close();
+
+					// System.out.println("TITEL: " + a.substring(3,
+					// 33).trim());
+					// System.out.println("ARTIST: " + a.substring(33,
+					// 63).trim());
+					// System.out.println("ALBUM: " + a.substring(63,
+					// 93).trim());
+					// System.out.println("YEAR: " + a.substring(93,
+					// 97).trim());
+					// System.out.println("COMMENT: " + a.substring(97,
+					// 126).trim());
+					// System.out.println("GENRE: " + bytearr[127]);
+
+				}
+				ranFile.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
