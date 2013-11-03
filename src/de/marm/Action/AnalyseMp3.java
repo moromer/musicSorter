@@ -24,6 +24,7 @@ public class AnalyseMp3 {
 			path += "/";
 		}
 		this.srcFolder = path;
+		instance = this;
 	}
 
 	public void startAnalyse() {
@@ -58,9 +59,9 @@ public class AnalyseMp3 {
 
 	private void readFiles(String path) {
 
-		if (this.fileList == null) {
+		if (instance.fileList == null) {
 			System.out.println("FILELIST IS NULL");
-			this.fileList = new ArrayList<File>();
+			instance.fileList = new ArrayList<File>();
 		}
 
 		File folder = new File(path);
@@ -70,7 +71,7 @@ public class AnalyseMp3 {
 				this.readFiles(fileEntry.toString());
 			} else {
 				if(fileEntry.toString().matches(".*\\.mp3$")) {
-					fileList.add(fileEntry);
+					instance.fileList.add(fileEntry);
 				} else {
 					System.out.println("File ("+fileEntry.toString() + " ) is not a valid type of .mp3");
 				}
@@ -81,10 +82,10 @@ public class AnalyseMp3 {
 
 	//Currently this is used only for tests
 	public ArrayList<File> getFileList() {
-		if (this.fileList == null) {
-			this.readFiles(this.srcFolder);
+		if (instance.fileList == null) {
+			instance.readFiles(this.srcFolder);
 		}
-		return this.fileList;
+		return instance.fileList;
 	}
 
 	public String getPath() {
@@ -92,8 +93,17 @@ public class AnalyseMp3 {
 	}
 
 	public void reLaunchFiles() {
-		this.fileList.removeAll(fileList);
+		instance.fileList.removeAll(fileList);
 		this.readFiles(this.srcFolder);
 
+	}
+	
+	public void Write() {
+		if(fileList != null && fileList.size() > 0) {
+			MusicGrid grid = MusicGrid.getInstance();
+			for(MP3 file : grid.getItemList()) {
+				System.out.println(file.getInterpret() + "/"+file.getAlbum()+"/"+file.getTitle());
+			}
+		}
 	}
 }
