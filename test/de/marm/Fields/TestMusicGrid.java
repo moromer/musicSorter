@@ -1,4 +1,4 @@
-package de.marm.Tests.Fields;
+package de.marm.Fields;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +11,7 @@ import org.junit.Test;
 import de.marm.Typ.MP3;
 
 
-public class MusicGrid {
+public class TestMusicGrid {
 	
 	private de.marm.Fields.MusicGrid musicGrid;
 	

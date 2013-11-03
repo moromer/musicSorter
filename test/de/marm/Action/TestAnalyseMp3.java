@@ -1,4 +1,4 @@
-package de.marm.Tests.Action;
+package de.marm.Action;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import de.marm.Fields.MusicGrid;
 
-public class AnalyseMp3 {
+public class TestAnalyseMp3 {
 	
 	private de.marm.Action.AnalyseMp3 analyze;
 	private String expectedPath;

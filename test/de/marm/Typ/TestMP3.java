@@ -1,4 +1,4 @@
-package de.marm.Tests.Typ;
+package de.marm.Typ;
 
 import static org.junit.Assert.*;
 
