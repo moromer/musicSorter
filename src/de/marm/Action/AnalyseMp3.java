@@ -32,13 +32,14 @@ public class AnalyseMp3 {
 		MusicGrid grid = MusicGrid.getInstance();
 		
 		if(!this.srcFolder.isEmpty()) {
-			this.readFiles();
+			this.readFiles(this.srcFolder);
 			Iterator<File> it = fileList.iterator();
 			
 			while(it.hasNext()) {
-				File file = it.next();
-				Music mp3 = this.readMp3Tags(file);
-				grid.addData(mp3);
+				Music music = this.readMp3Tags(it.next());
+				if(music != null) {
+					grid.addData(music);
+				}
 			}
 		} else {
 			System.out.println("no srcFolder specified -> can not start the Analyse");
@@ -51,38 +52,43 @@ public class AnalyseMp3 {
 		if (mp3File.isFile()) {
 			try {
 				RandomAccessFile ranFile = new RandomAccessFile(mp3File, "r");
-				byte[] bytearr = new byte[128];
-				ranFile.seek(ranFile.length() - 128);
-				ranFile.read(bytearr, 0, 128);
-				String a = new String(bytearr, "US-ASCII");
 				
-				if (!a.substring(0, 3).equals("TAG")) {
-					System.out.println("Keine Informationen vorhanden");
+				if(ranFile.length() >= 128) {
+					byte[] bytearr = new byte[128];
+					ranFile.seek(ranFile.length() - 128);
+					ranFile.read(bytearr, 0, 128);
+					String a = new String(bytearr, "US-ASCII");
+					
+					if (!a.substring(0, 3).equals("TAG")) {
+						System.out.println("Keine Informationen vorhanden");
+						ranFile.close();
+						return null;
+					}
+					
+					String title, interpret, album;
+					interpret = a.substring(33, 63).trim();
+					album  = a.substring(63, 93).trim();
+					title  =  a.substring(3, 33).trim();
+					
+					if(interpret.equals("")){
+						interpret = Music.DEFAULT_INTERPRET;
+					}
+					if(album.equals("")) {
+						album = Music.DEFAULT_ALBUM;
+					}
 					ranFile.close();
-					return null;
-				}
-				
-				String title, interpret, album;
-				interpret = a.substring(33, 63).trim();
-				album  = a.substring(63, 93).trim();
-				title  =  a.substring(3, 33).trim();
-				
-				if(interpret.equals("")){
-					interpret = Music.DEFAULT_INTERPRET;
-				}
-				if(album.equals("")) {
-					album = Music.DEFAULT_ALBUM;
+					
+					return new Music(interpret, album, title);
+					
+	//				System.out.println("TITEL: " + a.substring(3, 33).trim());
+	//				System.out.println("ARTIST: " + a.substring(33, 63).trim());
+	//				System.out.println("ALBUM: " + a.substring(63, 93).trim());
+	//				System.out.println("YEAR: " + a.substring(93, 97).trim());
+	//				System.out.println("COMMENT: " + a.substring(97, 126).trim());
+	//				System.out.println("GENRE: " + bytearr[127]);
+					
 				}
 				ranFile.close();
-
-				return new Music(interpret, album, title);
-				
-//				System.out.println("TITEL: " + a.substring(3, 33).trim());
-//				System.out.println("ARTIST: " + a.substring(33, 63).trim());
-//				System.out.println("ALBUM: " + a.substring(63, 93).trim());
-//				System.out.println("YEAR: " + a.substring(93, 97).trim());
-//				System.out.println("COMMENT: " + a.substring(97, 126).trim());
-//				System.out.println("GENRE: " + bytearr[127]);
 				
 				
 			} catch (IOException e) {
@@ -97,27 +103,33 @@ public class AnalyseMp3 {
 		this.srcFolder = folder;
 	}
 
-	private void readFiles() {
+	private void readFiles(String path) {
 
 		if (this.fileList == null) {
+			System.out.println("FILELIST IS NULL");
 			this.fileList = new ArrayList<File>();
 		}
 
-		File folder = new File(this.srcFolder);
+		File folder = new File(path);
 
 		for (File fileEntry : folder.listFiles()) {
 			if (fileEntry.isDirectory()) {
-				this.readFiles();
+				this.readFiles(fileEntry.toString());
 			} else {
-				this.fileList.add(fileEntry);
+				if(fileEntry.toString().matches(".*mp3$")) {
+					fileList.add(fileEntry);
+				} else {
+					System.out.println("File ("+fileEntry.toString() + " ) is not a valid type of .mp3");
+				}
 			}
 		}
 
 	}
 
+	//Currently this is used only for tests
 	public ArrayList<File> getFileList() {
 		if (this.fileList == null) {
-			this.readFiles();
+			this.readFiles(this.srcFolder);
 		}
 		return this.fileList;
 	}
@@ -128,7 +140,7 @@ public class AnalyseMp3 {
 
 	public void reLaunchFiles() {
 		this.fileList.removeAll(fileList);
-		this.readFiles();
+		this.readFiles(this.srcFolder);
 
 	}
 }

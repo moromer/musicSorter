@@ -20,7 +20,7 @@ public class AnalyseMp3 {
 
 	@Before
 	public void prepare() {
-		expectedPath = "/home/marm/git/musicSorter/testData/";
+		expectedPath = "C:\\Users\\Mario Romer\\workspace\\musicSorter\\testData/";
 		analyze = new de.marm.Action.AnalyseMp3(expectedPath);
 		grid = de.marm.Fields.MusicGrid.getInstance(new Shell(), "test");
 	}
@@ -30,7 +30,7 @@ public class AnalyseMp3 {
 		assertEquals("check initialization",de.marm.Action.AnalyseMp3.class, analyze.getClass());
 		assertEquals("check path",expectedPath, analyze.getPath());
 		
-		this.resetAnalyzeObject("/home/marm/git/musicSorter/testData");
+		this.resetAnalyzeObject("C:\\Users\\Mario Romer\\workspace\\musicSorter\\testData");
 		
 		assertEquals("check initialization",de.marm.Action.AnalyseMp3.class, analyze.getClass());
 		assertEquals("check path",expectedPath, analyze.getPath());
@@ -38,7 +38,7 @@ public class AnalyseMp3 {
 	
 	@Test
 	public void checkFileReader() throws IOException {
-		String tmpPath = this.expectedPath + "tmp/";
+		String tmpPath = this.expectedPath + "tmp\\";
 		rmdir(tmpPath);
 		
 		File tmpFolder = new File(tmpPath);
@@ -49,7 +49,7 @@ public class AnalyseMp3 {
 		this.resetAnalyzeObject(tmpPath);
 		
 		ArrayList<File> fileList = analyze.getFileList();
-		
+	
 		assertEquals("check count of files", 1, fileList.size());
 		assertEquals("check File", "File1.mp3", fileList.get(0).getName());
 		
@@ -65,6 +65,7 @@ public class AnalyseMp3 {
 		
 		assertEquals("check count of files is now 2", 2, fileList.size());
 		assertEquals("check File is still File1.mp3", "File1.mp3", fileList.get(0).getName());
+		assertEquals("check File is still File1.mp3", "File2.mp3", fileList.get(1).getName());
 		
 		
 		rmdir(tmpPath);
