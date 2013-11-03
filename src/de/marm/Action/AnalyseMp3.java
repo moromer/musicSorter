@@ -101,9 +101,38 @@ public class AnalyseMp3 {
 	public void Write() {
 		if(fileList != null && fileList.size() > 0) {
 			MusicGrid grid = MusicGrid.getInstance();
-			for(MP3 file : grid.getItemList()) {
-				System.out.println(file.getInterpret() + "/"+file.getAlbum()+"/"+file.getTitle());
+			for(MP3 mp3 : grid.getItemList()) {
+				
+				String interpreterPath = dstFolder + "/" + mp3.getInterpret();
+				String albumPath       = interpreterPath + "/" + mp3.getAlbum();
+				String filePath        = albumPath + "/" + mp3.getTitle() + ".mp3";
+				
+				createPath(interpreterPath);
+				createPath(albumPath);
+				
+				System.out.println(">>> " + filePath);
+//				try {
+//					FileChannel src = new FileInputStream(mp3.getmp3File()).getChannel();
+//					System.out.println(src.size());
+//					
+//					File newFile = new File(filePath);
+//					newFile.createNewFile();
+//					
+//					FileChannel dst = new FileInputStream(newFile).getChannel();
+//					dst.transferFrom(src, 0, src.size());
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				System.out.println(mp3.getmp3File().getPath());
 			}
+		}
+	}
+	
+	private void createPath(String pathname) {
+		File folder = new File(pathname);
+		if(!folder.exists() || !folder.isDirectory()) {
+			folder.mkdir();
 		}
 	}
 }

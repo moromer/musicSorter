@@ -143,7 +143,7 @@ public class MainPage {
 					analyse.setSrcFolder(srcSelection.getPath());
 					analyse.setDstFolder(dstSelection.getPath());
 					analyse.startAnalyse();
-					if (analyse.getFileList().size() <= 0) {
+					if (MusicGrid.getInstance().getItemList().size() <= 0) {
 						lblmessage.setText("no mp3 files found");
 						lblmessage.setSize(300, 20);
 						lblmessage.setForeground(new Color(null, 204, 0, 0));
