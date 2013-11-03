@@ -139,6 +139,7 @@ public class MainPage {
 					lblmessage.setText("");
 					AnalyseMp3 analyse = new AnalyseMp3(srcSelection.getPath());
 					analyse.setSrcFolder(srcSelection.getPath());
+					analyse.setDstFolder(dstSelection.getPath());
 					analyse.startAnalyse();
 				
 				} else {

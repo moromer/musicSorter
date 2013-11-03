@@ -102,6 +102,10 @@ public class AnalyseMp3 {
 	public void setSrcFolder(String folder) {
 		this.srcFolder = folder;
 	}
+	
+	public void setDstFolder(String folder) {
+		this.dstFolder = folder;
+	}
 
 	private void readFiles(String path) {
 
