@@ -1,5 +1,7 @@
 package de.marm.Builder;
 
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -166,7 +168,12 @@ public class MainPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				AnalyseMp3 analyse = AnalyseMp3.getInstance();
-				analyse.Write();
+				try {
+					analyse.Write();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				
 				lblmessage.setText("Finished! All MP3 Files are now sorted");
