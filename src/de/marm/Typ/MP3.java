@@ -93,11 +93,9 @@ public class MP3 {
 				if (a.substring(0, 3).equals("TAG")) {
 					interpret = a.substring(33, 63).trim();
 					album     = a.substring(63, 93).trim();
-					title     = a.substring(3, 33).trim();
-
+					title     = a.substring(3, 33).trim().replaceAll("\n", "-").replaceAll("/", "-").replaceAll("\r", "-");
 				} else {
-					System.out.println("no tag information readable");
-					System.out.println(a);
+					System.out.println("no tag information readable for " + mp3File.getName());
 					
 					ranFile.close();
 					return false;

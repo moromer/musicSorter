@@ -170,15 +170,18 @@ public class MainPage {
 				AnalyseMp3 analyse = AnalyseMp3.getInstance();
 				try {
 					analyse.Write();
+					lblmessage.setText("Finished! All MP3 Files are now sorted");
+					lblmessage.setSize(500, 20);
+					lblmessage.setForeground(new Color(null, 0, 204, 0));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					lblmessage.setText("Error wile copying Files. Please see log for more details");
+					lblmessage.setSize(500, 20);
+					lblmessage.setForeground(new Color(null, 204, 0, 0));
 				}
 				
 				
-				lblmessage.setText("Finished! All MP3 Files are now sorted");
-				lblmessage.setSize(500, 20);
-				lblmessage.setForeground(new Color(null, 0, 204, 0));
 			}
 		});
 
