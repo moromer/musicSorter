@@ -1,25 +1,25 @@
 package de.marm.Builder;
 
-import org.eclipse.swt.SWT;
+import java.io.IOException;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
-
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
+import de.marm.Action.AnalyseMp3;
 import de.marm.Fields.Filter;
 import de.marm.Fields.FolderSelection;
 import de.marm.Fields.MusicGrid;
+import de.marm.Typ.Color;
 
 public class MainPage {
 
@@ -27,8 +27,8 @@ public class MainPage {
 
 	protected FolderSelection srcSelection;
 	protected FolderSelection dstSelection;
-	
-	protected Filter fileFormatist;         
+
+	protected Filter filterText;
 
 	protected MusicGrid gMusic;
 
@@ -37,7 +37,7 @@ public class MainPage {
 	protected Button bSave;
 
 	protected Label lblmessage;
-
+	
 	/**
 	 * Launch the application.
 	 * 
@@ -71,7 +71,7 @@ public class MainPage {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(){
+	protected void createContents() {
 
 		shell = new Shell();
 		final Image image = new Image(shell.getDisplay(), "images/music.png");
@@ -95,10 +95,12 @@ public class MainPage {
 		gridData.widthHint = 400;
 		folderInfo.setLayoutData(gridData);
 
-		srcSelection = new FolderSelection(folderInfo, "Src. Folder");
-		dstSelection = new FolderSelection(folderInfo, "Dst. Folder");
-		
-		fileFormatist = new Filter(shell, SWT.SINGLE | SWT.BORDER);
+		srcSelection = new FolderSelection(folderInfo, "Src. Folder",
+				FolderSelection.SRC);
+		dstSelection = new FolderSelection(folderInfo, "Dst. Folder",
+				FolderSelection.DST);
+
+		filterText = new Filter(shell, SWT.SINGLE | SWT.BORDER);
 
 		// Modify Action Buttons
 		Composite cActions = new Composite(shell, SWT.NONE);
@@ -124,6 +126,8 @@ public class MainPage {
 			public void widgetSelected(SelectionEvent e) {
 				srcSelection.removeText();
 				dstSelection.removeText();
+				filterText.removeText();
+				MusicGrid.getInstance().removeStore();
 				lblmessage.setText("");
 			}
 		});
@@ -137,19 +141,47 @@ public class MainPage {
 			public void widgetSelected(SelectionEvent e) {
 				if (srcSelection.isDirectory() && dstSelection.isDirectory()) {
 					lblmessage.setText("");
-				
+					AnalyseMp3 analyse = new AnalyseMp3(srcSelection.getPath());
+					analyse.setSrcFolder(srcSelection.getPath());
+					analyse.setDstFolder(dstSelection.getPath());
+					analyse.startAnalyse();
+					if (MusicGrid.getInstance().getItemList().size() <= 0) {
+						lblmessage.setText("no mp3 files found");
+						lblmessage.setSize(300, 20);
+						lblmessage.setForeground(Color.RED);
+					}
+
 				} else {
 					lblmessage
 							.setText("Please choose a Source AND Destination Folder");
 					lblmessage.setSize(300, 20);
-					lblmessage.setForeground(new Color(null, 204, 0, 0));
+					lblmessage.setForeground(Color.RED);
 				}
 			}
 		});
 
 		bSave = new Button(cActions, SWT.NONE);
 		bSave.setLayoutData(gridData);
-		bSave.setText("Write Changes");
+		bSave.setText("Copy Music");
+
+		bSave.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				AnalyseMp3 analyse = AnalyseMp3.getInstance();
+				try {
+					analyse.Write();
+					lblmessage.setText("Finished! All MP3 Files are now sorted");
+					lblmessage.setSize(500, 20);
+					lblmessage.setForeground(Color.GREEN);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					lblmessage.setText("Error wile copying Files. Please see log for more details");
+					lblmessage.setSize(500, 20);
+					lblmessage.setForeground(Color.RED);
+				}
+			}
+		});
 
 		// Warn, Info, Error Message
 		lblmessage = new Label(shell, SWT.WRAP);
@@ -157,8 +189,8 @@ public class MainPage {
 				false, 3, 1);
 		lblmessage.setLayoutData(gridData);
 		lblmessage.setText("");
-		
+
 		gMusic = MusicGrid.getInstance(shell, "Ordered Music");
-		
+
 	}
 }

@@ -12,24 +12,24 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import de.marm.Typ.Music;
+import de.marm.Typ.MP3;
 
 public class MusicGrid{
 	
 	private Table table;
 //	TODO: this arraylist should be 2 dimensional. So that i can specifiy if item x is visible or not
-	private ArrayList<Music> items;
+	private ArrayList<MP3> items;
 	private static MusicGrid instance = null;
 
 	private MusicGrid() {
 		
 	}
 	
-	public ArrayList<Music> getItemList() {
+	public ArrayList<MP3> getItemList() {
 		return items;
 	}
 	
-	public void addData(Music music) {
+	public void addData(MP3 music) {
 		TableItem item = new TableItem(table, SWT.None);
 		
 		item.setText(music.getData());
@@ -66,7 +66,7 @@ public class MusicGrid{
 		
 		table.setHeaderVisible(true);
 		
-		items = new ArrayList<Music>();
+		items = new ArrayList<MP3>();
 		
 		//Dummy Data should be replaced by data read form srcFolder
 //		Music m1 = new Music("Linken Park", "Living Things", "Burn it Down");
@@ -97,11 +97,16 @@ public class MusicGrid{
 		
 	}
 	
+	public void removeStore() {
+		table.removeAll();
+		items.removeAll(items);
+	}
+	
 	public void filterBy(String filterString) {
 		table.removeAll();
-		Iterator<Music> it = items.iterator();
+		Iterator<MP3> it = items.iterator();
 		while(it.hasNext()) {
-			Music music = it.next();
+			MP3 music = it.next();
 			if(music.toString().matches(".*"+filterString+".*")) {
 				TableItem item = new TableItem(table, SWT.None);
 				item.setText(music.getData());
