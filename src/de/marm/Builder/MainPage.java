@@ -13,13 +13,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import de.marm.Action.AnalyseMp3;
 import de.marm.Fields.Filter;
 import de.marm.Fields.FolderSelection;
 import de.marm.Fields.MusicGrid;
+import de.marm.Typ.Color;
 
 public class MainPage {
 
@@ -37,7 +37,7 @@ public class MainPage {
 	protected Button bSave;
 
 	protected Label lblmessage;
-
+	
 	/**
 	 * Launch the application.
 	 * 
@@ -148,21 +148,21 @@ public class MainPage {
 					if (MusicGrid.getInstance().getItemList().size() <= 0) {
 						lblmessage.setText("no mp3 files found");
 						lblmessage.setSize(300, 20);
-						lblmessage.setForeground(new Color(null, 204, 0, 0));
+						lblmessage.setForeground(Color.RED);
 					}
 
 				} else {
 					lblmessage
 							.setText("Please choose a Source AND Destination Folder");
 					lblmessage.setSize(300, 20);
-					lblmessage.setForeground(new Color(null, 204, 0, 0));
+					lblmessage.setForeground(Color.RED);
 				}
 			}
 		});
 
 		bSave = new Button(cActions, SWT.NONE);
 		bSave.setLayoutData(gridData);
-		bSave.setText("Write Changes");
+		bSave.setText("Copy Music");
 
 		bSave.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -172,16 +172,14 @@ public class MainPage {
 					analyse.Write();
 					lblmessage.setText("Finished! All MP3 Files are now sorted");
 					lblmessage.setSize(500, 20);
-					lblmessage.setForeground(new Color(null, 0, 204, 0));
+					lblmessage.setForeground(Color.GREEN);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 					lblmessage.setText("Error wile copying Files. Please see log for more details");
 					lblmessage.setSize(500, 20);
-					lblmessage.setForeground(new Color(null, 204, 0, 0));
+					lblmessage.setForeground(Color.RED);
 				}
-				
-				
 			}
 		});
 
